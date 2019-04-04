@@ -1,6 +1,10 @@
 package com.example.musicae;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import static android.app.PendingIntent.getActivity;
 
 public class MusicAdapter extends BaseAdapter {
 
@@ -62,5 +68,22 @@ public class MusicAdapter extends BaseAdapter {
         viewHolder.musicArtist.setText(music.getName());
         viewHolder.musicLength.setText(music.getName());
         return convertView;
+    }
+
+    public void getMusic() {
+        ContentResolver contentResolver = getActivity().getContentResolver();
+        Uri musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        Cursor musicCursor = contentResolver.query(musicUri, null, null, null, null);
+
+        if (musicCursor != null) {
+            if (musicCursor.moveToFirst()) {
+                do {
+                    String url = musicCursor.getString(musicCursor.getColumnIndex(MediaStore.Audio.Media.DATA));
+                    String name = musicCursor.getString(musicCursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
+                    String artist = musicCursor.getString(musicCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST));
+                    String length = musicCursor.getString(musicCursor.getColumnIndex(MediaStore.Audio.Media.DURATION));
+                } while (musicCursor.moveToNext());
+            }
+        }
     }
 }
