@@ -28,6 +28,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
@@ -45,18 +52,19 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        runtimePermission();
 
-        if (ContextCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                ActivityCompat.requestPermissions(MainActivity.this,
-                        new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION_REQUEST);
-            } else {
-                ActivityCompat.requestPermissions(MainActivity.this,
-                        new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION_REQUEST);
-            }
-        }
+//        if (ContextCompat.checkSelfPermission(MainActivity.this,
+//                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+//                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+//                ActivityCompat.requestPermissions(MainActivity.this,
+//                        new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION_REQUEST);
+//            } else {
+//                ActivityCompat.requestPermissions(MainActivity.this,
+//                        new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION_REQUEST);
+//            }
+//        }
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tabs);
         ViewPager viewPager = (ViewPager)findViewById(R.id.viewPager);
@@ -75,24 +83,45 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    public void runtimePermission() {
+        Dexter.withActivity(this)
+                .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse response) {
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSION_REQUEST:{
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (ContextCompat.checkSelfPermission(MainActivity.this,
-                            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                        Toast.makeText(this, "Permission granted!", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(this, "No permission granted!", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-                return;
-            }
-        }
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse response) {
+                        finish();
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).check();
     }
+
+
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+//        switch (requestCode) {
+//            case MY_PERMISSION_REQUEST:{
+//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                    if (ContextCompat.checkSelfPermission(MainActivity.this,
+//                            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+//                        Toast.makeText(this, "Permission granted!", Toast.LENGTH_SHORT).show();
+//                    }
+//                } else {
+//                    Toast.makeText(this, "No permission granted!", Toast.LENGTH_SHORT).show();
+//                    finish();
+//                }
+//                return;
+//            }
+//        }
+//    }
 
     @Override
     public void onBackPressed() {
