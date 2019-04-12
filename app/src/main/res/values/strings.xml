@@ -7,7 +7,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <!-- Item Music -->
+    <!-- Item Song -->
     <string name="music_title">Music Title</string>
     <string name="music_artist">Music Artist</string>
     <string name="music_length">Music Length</string>

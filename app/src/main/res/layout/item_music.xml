@@ -31,14 +31,11 @@
             android:id="@+id/musicTitle"
             android:layout_width="wrap_content"
             android:layout_height="19dp"
-            android:layout_marginStart="22dp"
-            android:layout_marginLeft="22dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:text="@string/music_title"
-            app:layout_constraintBottom_toTopOf="@+id/musicArtist"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/musicImage"
+            tools:layout_editor_absoluteY="16dp" />
 
         <TextView
             android:id="@+id/musicArtist"

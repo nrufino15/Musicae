@@ -11,11 +11,11 @@ import java.util.List;
 
 import static android.app.PendingIntent.getActivity;
 
-public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHolder> {
+public class SongAdapter extends RecyclerView.Adapter<SongAdapter.MusicViewHolder> {
 
-    List<Music> list;
+    List<Song> list;
 
-    MusicAdapter(List<Music> list){
+    SongAdapter(List<Song> list){
         this.list = list;
     }
 
@@ -27,11 +27,11 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
 
     @Override
     public void onBindViewHolder(@NonNull MusicViewHolder holder, int position) {
-        Music music = list.get(position);
+        Song song = list.get(position);
 
-        holder.musicTitle.setText(music.title);
-        holder.musicArtist.setText(music.artist);
-        holder.musicLength.setText(music.length);
+        holder.musicTitle.setText(song.title);
+        holder.musicArtist.setText(song.artist);
+        holder.musicLength.setText(song.length);
     }
 
     @Override
