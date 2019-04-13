@@ -17,6 +17,8 @@
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        app:itemTextColor="@color/colorWhite"
+        app:itemIconTint="@color/colorWhite"
         android:background="@color/backgroundMenu"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
@@ -30,7 +32,7 @@
             android:layout_gravity="bottom"
             android:background="@color/buttonBlue"
             android:textStyle="bold"
-            android:text="Button"
+            android:text="@string/log_out"
             android:textColor="@color/colorWhite" />
     </android.support.design.widget.NavigationView>
 

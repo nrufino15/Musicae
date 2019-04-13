@@ -13,6 +13,7 @@
     <string name="options">Opciones</string>
     <string name="music">Música</string>
     <string name="explore">Explorar</string>
+    <string name="log_out">DESCONECTARSE</string>
 
     <!-- Item Song -->
     <string name="music_title">Music Title</string>
