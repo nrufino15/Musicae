@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#282424</color>
+    <color name="colorPrimaryDark">#202225</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorGray">#808080</color>
+    <color name="backgroundFragment">#2F3136</color>
+    <color name="backgroundCardView">#36393F</color>
+    <color name="backgroundMenu">#54444C</color>
+    <color name="buttonBlue">#718AD6</color>
 </resources>

@@ -46,31 +46,20 @@ public class MusicFragment extends Fragment {
         recyclerView.setAdapter(songAdapter);
 
 
-
-//        getMusics().observe(this, new Observer<List<Song>>() {
-//            @Override
-//            public void onChanged(@Nullable List<Song> music) {
-//
-//            }
-//        });
-
         return view;
     }
-
-//    abstract LiveData<List<Song>> getMusics();
 
     public void getSongs() {
         ContentResolver contentResolver = getActivity().getContentResolver();
         Uri musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        Cursor musicCursor = contentResolver.query(musicUri, null, null, null, null);
+        Cursor songCursor = contentResolver.query(musicUri, null, null, null, null);
 
-        if (musicCursor != null) {
-            if (musicCursor.moveToFirst()) {
+        if (songCursor != null) {
+            if (songCursor.moveToFirst()) {
                 do {
-                    String url = musicCursor.getString(musicCursor.getColumnIndex(MediaStore.Audio.Media.DATA));
-                    String name = musicCursor.getString(musicCursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
-                    String artist = musicCursor.getString(musicCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST));
-                    String length = musicCursor.getString(musicCursor.getColumnIndex(MediaStore.Audio.Media.DURATION));
+                    String name = songCursor.getString(songCursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
+                    String artist = songCursor.getString(songCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST));
+                    String length = songCursor.getString(songCursor.getColumnIndex(MediaStore.Audio.Media.DURATION));
 
                     Song song = new Song();
                     song.artist = artist;
@@ -79,7 +68,7 @@ public class MusicFragment extends Fragment {
 
                     songList.add(song);
 
-                } while (musicCursor.moveToNext());
+                } while (songCursor.moveToNext());
             }
         }
     }

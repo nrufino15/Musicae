@@ -5,7 +5,14 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Incidencia</string>
+
+    <!-- Tab -->
+    <string name="songs">CANCIONES</string>
+    <string name="playlists">PLAYLISTS</string>
+    <string name="options">Opciones</string>
+    <string name="music">Música</string>
+    <string name="explore">Explorar</string>
 
     <!-- Item Song -->
     <string name="music_title">Music Title</string>
