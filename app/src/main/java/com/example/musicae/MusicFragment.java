@@ -2,19 +2,24 @@ package com.example.musicae;
 
 
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.support.constraint.Constraints.TAG;
 
 
 /**
@@ -25,6 +30,8 @@ public class MusicFragment extends Fragment {
     private ArrayList<Song> arrayList;
     private SongAdapter songAdapter;
     List<Song> songList = new ArrayList<>();
+
+    MediaPlayer mPlayer;
 
     public MusicFragment() {
         // Required empty public constructor
@@ -44,7 +51,6 @@ public class MusicFragment extends Fragment {
 
         final SongAdapter songAdapter = new SongAdapter(songList);
         recyclerView.setAdapter(songAdapter);
-
 
         return view;
     }

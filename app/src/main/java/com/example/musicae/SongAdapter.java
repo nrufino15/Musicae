@@ -46,9 +46,10 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.MusicViewHolde
 
         MusicViewHolder(View itemMusic) {
             super(itemMusic);
-            musicTitle = itemMusic.findViewById(R.id.musicTitle);
-            musicArtist = itemMusic.findViewById(R.id.musicArtist);
+            musicTitle = itemMusic.findViewById(R.id.songTitle);
+            musicArtist = itemMusic.findViewById(R.id.songArtist);
             musicLength = itemMusic.findViewById(R.id.musicLength);
         }
     }
+
 }

@@ -15,6 +15,11 @@
     <string name="explore">Explorar</string>
     <string name="log_out">DESCONECTARSE</string>
 
+    <!-- nav Song -->
+    <string name="play_btn">Play</string>
+    <string name="prev_btn">Previous</string>
+    <string name="next_btn">Next</string>
+
     <!-- Item Song -->
     <string name="music_title">Music Title</string>
     <string name="music_artist">Music Artist</string>

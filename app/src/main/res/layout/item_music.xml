@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/music_icon_description"
-        app:layout_constraintBottom_toTopOf="@+id/musicArtist"
-        app:layout_constraintTop_toTopOf="@+id/musicArtist">
+        app:layout_constraintBottom_toTopOf="@+id/songArtist"
+        app:layout_constraintTop_toTopOf="@+id/songArtist">
 
         <ImageView
             android:id="@+id/musicImage"
@@ -30,7 +30,7 @@
             app:srcCompat="@drawable/music_icon" />
 
         <TextView
-            android:id="@+id/musicTitle"
+            android:id="@+id/songTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -43,14 +43,14 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/musicArtist"
+            android:id="@+id/songArtist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:text="@string/music_artist"
             android:textColor="@color/colorGray"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/musicTitle" />
+            app:layout_constraintStart_toStartOf="@+id/songTitle" />
 
         <TextView
             android:id="@+id/musicLength"
