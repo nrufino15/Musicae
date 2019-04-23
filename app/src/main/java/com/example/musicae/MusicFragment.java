@@ -2,7 +2,6 @@ package com.example.musicae;
 
 
 import android.content.ContentResolver;
-import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -11,15 +10,13 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.support.constraint.Constraints.TAG;
 
 
 /**
@@ -28,7 +25,7 @@ import static android.support.constraint.Constraints.TAG;
 public class MusicFragment extends Fragment {
 
     private ArrayList<Song> arrayList;
-    private SongAdapter songAdapter;
+    private RecyclerViewAdapter recyclerViewAdapter;
     List<Song> songList = new ArrayList<>();
 
     MediaPlayer mPlayer;
@@ -49,8 +46,8 @@ public class MusicFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.music_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        final SongAdapter songAdapter = new SongAdapter(songList);
-        recyclerView.setAdapter(songAdapter);
+        final RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(songList, getContext());
+        recyclerView.setAdapter(recyclerViewAdapter);
 
         return view;
     }
@@ -63,11 +60,13 @@ public class MusicFragment extends Fragment {
         if (songCursor != null) {
             if (songCursor.moveToFirst()) {
                 do {
+                    String data = songCursor.getString(songCursor.getColumnIndex(MediaStore.Audio.Media.DATA));
                     String name = songCursor.getString(songCursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
                     String artist = songCursor.getString(songCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST));
                     String length = songCursor.getString(songCursor.getColumnIndex(MediaStore.Audio.Media.DURATION));
 
                     Song song = new Song();
+                    song.uri = data;
                     song.artist = artist;
                     song.length = length;
                     song.title = name;
