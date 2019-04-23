@@ -46,7 +46,7 @@ public class MusicFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.music_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        final RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(songList, getContext());
+        final RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getContext(), songList);
         recyclerView.setAdapter(recyclerViewAdapter);
 
         return view;
