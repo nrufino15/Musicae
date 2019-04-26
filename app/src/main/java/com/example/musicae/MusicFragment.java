@@ -3,9 +3,11 @@ package com.example.musicae;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,8 +15,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,11 +26,10 @@ import java.util.List;
  */
 public class MusicFragment extends Fragment {
 
-    private ArrayList<Song> arrayList;
     private RecyclerViewAdapter recyclerViewAdapter;
-    List<Song> songList = new ArrayList<>();
+    List<Song> mList = new ArrayList<>();
 
-    MediaPlayer mPlayer;
+    MediaPlayer mediaPlayer;
 
     public MusicFragment() {
         // Required empty public constructor
@@ -46,7 +47,7 @@ public class MusicFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.music_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        final RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getContext(), songList);
+        final RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getContext(), mList);
         recyclerView.setAdapter(recyclerViewAdapter);
 
         return view;
@@ -71,10 +72,20 @@ public class MusicFragment extends Fragment {
                     song.length = length;
                     song.title = name;
 
-                    songList.add(song);
+                    mList.add(song);
 
                 } while (songCursor.moveToNext());
             }
         }
     }
+
+//    public void playSong() throws IOException {
+//        Song song = new Song();
+//        String filePath = song.uri;
+//        mediaPlayer = new MediaPlayer();
+//        mediaPlayer.setDataSource(filePath);
+//        mediaPlayer.prepare();
+//        mediaPlayer.start();
+//
+//    }
 }

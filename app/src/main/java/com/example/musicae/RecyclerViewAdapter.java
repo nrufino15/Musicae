@@ -20,6 +20,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private List<Song> mList;
     private Context mContext;
 
+
     RecyclerViewAdapter(Context mContext, List<Song> mList) {
         this.mList = mList;
         this.mContext = mContext;

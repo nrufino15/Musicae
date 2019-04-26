@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-mList xmlns:android="http://schemas.android.com/apk/res/android">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@color/colorPrimary"/>
     <item>
         <bitmap
@@ -7,4 +7,4 @@
             android:scaleType="centerInside"
             android:src="@drawable/splash_screen" />
     </item>
-</layer-mList>
+</layer-list>
