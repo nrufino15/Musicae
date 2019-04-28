@@ -1,24 +1,21 @@
 package com.example.musicae;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.musicae.Modal.Song;
-
 import java.util.List;
 
-import static android.app.PendingIntent.getActivity;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> implements PopupMenu.OnMenuItemClickListener {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private List<Song> mList;
     private Context mContext;
@@ -54,7 +51,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.parentLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                showPopUp(v);
+                openDialog(position);
                 return true;
             }
         });
@@ -82,22 +79,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
 
-    public void showPopUp(View v) {
-        PopupMenu popup = new PopupMenu(mContext, v);
-        popup.setOnMenuItemClickListener(this);
-        popup.inflate(R.menu.popup_menu);
-        popup.show();
+    public void openDialog(int item){
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("Información")
+                .setMessage("Titulo: " + mList.get(item).title
+                        + "\n\nArtista: " + mList.get(item).artist
+                        + "\n\nDuración (ms): " + mList.get(item).length
+                        + "\n\nAlacenamiento: " + mList.get(item).uri)
+                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        builder.show();
     }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.item1:
-                Toast.makeText(mContext, "Item 1 click", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return false;
-        }
-    }
-
 }
