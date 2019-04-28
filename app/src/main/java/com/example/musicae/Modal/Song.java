@@ -1,4 +1,4 @@
-package com.example.musicae;
+package com.example.musicae.Modal;
 
 public class Song {
     public String uri;

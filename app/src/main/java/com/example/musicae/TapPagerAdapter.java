@@ -5,6 +5,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.example.musicae.View.MusicFragment;
+import com.example.musicae.View.PlayListFragment;
+
 public class TapPagerAdapter extends FragmentStatePagerAdapter {
 
     String[] tabarray = new String[]{"Canciones","PlayLists"};

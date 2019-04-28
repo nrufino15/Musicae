@@ -1,13 +1,11 @@
-package com.example.musicae;
+package com.example.musicae.View;
 
 
 import android.content.ContentResolver;
 import android.database.Cursor;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,7 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.io.IOException;
+import com.example.musicae.R;
+import com.example.musicae.RecyclerViewAdapter;
+import com.example.musicae.Modal.Song;
+
 import java.util.ArrayList;
 import java.util.List;
 
