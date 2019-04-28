@@ -26,8 +26,9 @@
     <string name="music_length">Music Length</string>
     <string name="music_icon_description">Music Image</string>
 
-    <!-- Pop up menu -->
-    <string name="pop_inf">Información</string>
+    <!-- Playing song -->
+    <string name="title">SONANDO AHORA</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
