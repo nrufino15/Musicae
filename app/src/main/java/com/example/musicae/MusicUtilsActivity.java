@@ -8,7 +8,7 @@ import android.view.View;
 import java.io.IOException;
 import java.util.IllegalFormatCodePointException;
 
-public class MediaPlayerActivity {
+public class MusicUtilsActivity {
 
     public static final int MAX_PROGRESS=10000;
 

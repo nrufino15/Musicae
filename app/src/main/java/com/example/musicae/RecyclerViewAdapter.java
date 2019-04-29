@@ -3,6 +3,8 @@ package com.example.musicae;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.musicae.Modal.Song;
+import com.example.musicae.View.CurrentSongActivity;
+import com.example.musicae.View.MusicFragment;
 
 import java.util.List;
 
@@ -46,6 +50,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View v) {
                 Toast.makeText(mContext, song.title, Toast.LENGTH_SHORT).show();
+                sendData(song.uri, song.title, song.length);
+
             }
         });
 
@@ -94,5 +100,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     }
                 });
         builder.show();
+    }
+
+    public void sendData(String uri, String title, String length) {
+        Intent intent = new Intent(mContext.getApplicationContext(), CurrentSongActivity.class);
+        intent.putExtra("URI", uri);
+        intent.putExtra("SONG_TITLE", title);
+        intent.putExtra("SONG_DURATION", length);
+        mContext.startActivity(intent);
+
     }
 }
