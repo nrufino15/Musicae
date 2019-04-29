@@ -1,10 +1,10 @@
 package com.example.musicae;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.musicae.Modal.Song;
 import com.example.musicae.View.CurrentSongActivity;
-import com.example.musicae.View.MusicFragment;
 
 import java.util.List;
 
@@ -31,14 +30,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         this.mContext = mContext;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_music, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         final Song song = mList.get(position);
 
         holder.musicTitle.setText(song.title);
@@ -86,7 +86,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
 
-    public void openDialog(int item){
+    private void openDialog(int item){
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle("Información")
                 .setMessage("Titulo: " + mList.get(item).title
@@ -102,7 +102,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         builder.show();
     }
 
-    public void sendData(String uri, String title, String length) {
+    private void sendData(String uri, String title, String length) {
         Intent intent = new Intent(mContext.getApplicationContext(), CurrentSongActivity.class);
         intent.putExtra("URI", uri);
         intent.putExtra("SONG_TITLE", title);
