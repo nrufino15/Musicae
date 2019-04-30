@@ -55,13 +55,9 @@ public class MusicFragment extends Fragment {
     }
 
     public void getSongs() {
-        ContentResolver contentResolver = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            contentResolver = Objects.requireNonNull(getActivity()).getContentResolver();
-        }
+        ContentResolver contentResolver = getActivity().getContentResolver();
         Uri musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        assert contentResolver != null;
-        @SuppressLint("Recycle") Cursor songCursor = contentResolver.query(musicUri, null, null, null, null);
+        Cursor songCursor = contentResolver.query(musicUri, null, null, null, null);
 
         if (songCursor != null) {
             if (songCursor.moveToFirst()) {

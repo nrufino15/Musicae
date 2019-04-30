@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "255054386356",
+    "firebase_url": "https://musicae-f0756.firebaseio.com",
+    "project_id": "musicae-f0756",
+    "storage_bucket": "musicae-f0756.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:255054386356:android:0752cb776093413f",
+        "android_client_info": {
+          "package_name": "com.example.musicae"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "255054386356-54he42cb9c6k3alqdm70q62ips46udos.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.musicae",
+            "certificate_hash": "d198bc2bbe818d2ba79db9d294a9008bb97fc316"
+          }
+        },
+        {
+          "client_id": "255054386356-rcf5136m5voapilen1qih60jijhrqa0v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByBq-KjCQnkZzEC1IElQCXNKUStHyCwug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "255054386356-rcf5136m5voapilen1qih60jijhrqa0v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

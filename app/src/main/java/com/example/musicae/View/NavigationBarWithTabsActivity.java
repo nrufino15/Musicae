@@ -18,15 +18,27 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.musicae.MainActivity;
 import com.example.musicae.R;
 import com.example.musicae.TapPagerAdapter;
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class NavigationBarWithTabsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
 
 
+    private ImageView userImage;
+    private TextView userName, userEmail;
 
     private static final int MY_PERMISSION_REQUEST = 1;
     MusicFragment musicFragment;
@@ -39,10 +51,6 @@ public class NavigationBarWithTabsActivity extends AppCompatActivity
         verifyPermissions();
     }
 
-    public void setIntentButton(){
-        Intent intent = new Intent(getApplicationContext(), SlideActivity.class);
-        startActivity(intent);
-    }
 
     public void verifyPermissions() {
         String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -85,6 +93,35 @@ public class NavigationBarWithTabsActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    public void setUser(){
+        userImage = findViewById(R.id.userImage);
+        userEmail = findViewById(R.id.userEmail);
+        userName = findViewById(R.id.userName);
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null) {
+            userName.setText(firebaseUser.getDisplayName());
+            userEmail.setText(firebaseUser.getEmail());
+            Glide.with(this)
+                    .load(firebaseUser.getPhotoUrl().toString())
+                    .into(userImage);
+
+
+            findViewById(R.id.sign_out).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AuthUI.getInstance()
+                            .signOut(LoginActivity.this)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                    finish();
+                                }
+                            });
+                }
+            });
+        }
+
 
     @Override
     public void onBackPressed() {
@@ -119,6 +156,11 @@ public class NavigationBarWithTabsActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setIntentButton(){
+        Intent intent = new Intent(getApplicationContext(), SlideActivity.class);
+        startActivity(intent);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
