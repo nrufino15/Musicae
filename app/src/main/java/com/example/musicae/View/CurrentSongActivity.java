@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -19,29 +18,24 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.musicae.MusicUtilsActivity;
 import com.example.musicae.R;
 import com.mikhaellopez.circularimageview.CircularImageView;
-
 import java.io.IOException;
 
 public class CurrentSongActivity extends AppCompatActivity {
 
-//    private View parent_view;
     private AppCompatSeekBar seekBar;
-    private TextView song_current_duration, song_total_duration, songTitle;
+    private TextView song_current_duration;
+    private TextView song_total_duration;
     private FloatingActionButton playBtn, pauseBtn;
     private ImageButton nextBtn, prevBtn;
     private ImageView stopBtn;
     private CircularImageView image;
     private MediaPlayer player;
-    private Handler mHandler;
-    private Runnable runnable;
+    private Handler mHandler = new Handler();
     private String URI;
     private String Title;
-    private String Duration;
-
     private MusicUtilsActivity utils;
 
     @Override
@@ -49,10 +43,11 @@ public class CurrentSongActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_song);
         getIntentData();
-        prepareSong();
-        setMusicComponents();
-        buttonActions();
         playSong();
+        setComponents();
+        setSeekBar();
+        updateTimeAndSeekBar();
+        buttonActions();
         rotateDisk();
     }
 
@@ -60,7 +55,6 @@ public class CurrentSongActivity extends AppCompatActivity {
         Intent intent = getIntent();
         URI = intent.getStringExtra("URI");
         Title = intent.getStringExtra("SONG_TITLE");
-        Duration = intent.getStringExtra("SONG_DURATION");
     }
 
     public void playSong() {
@@ -76,8 +70,8 @@ public class CurrentSongActivity extends AppCompatActivity {
         }
     }
 
-    public void prepareSong() {
-        songTitle = findViewById(R.id.songTitle);
+    public void setComponents() {
+        TextView songTitle = findViewById(R.id.songTitle);
         songTitle.setText(Title);
         song_total_duration = findViewById(R.id.totalDuration);
         song_current_duration = findViewById(R.id.currentDuration);
@@ -90,7 +84,7 @@ public class CurrentSongActivity extends AppCompatActivity {
         prevBtn = findViewById(R.id.prevBtn);
     }
 
-    public void setMusicComponents() {
+    public void setSeekBar() {
         utils = new MusicUtilsActivity();
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -107,13 +101,13 @@ public class CurrentSongActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 mHandler.removeCallbacks(mUpdateTimeTask);
-                int totalDuration=player.getDuration();
-                int currentPosition=utils.progressToTimer(seekBar.getProgress(), totalDuration);
+                int totalDuration = player.getDuration();
+                int currentPosition = utils.progressToTimer(seekBar.getProgress(), totalDuration);
                 player.seekTo(currentPosition);
                 mHandler.post(mUpdateTimeTask);
             }
         });
-//        updateTimeAndSeekBar();
+        updateTimeAndSeekBar();
     }
 
     public void buttonActions() {
@@ -163,29 +157,37 @@ public class CurrentSongActivity extends AppCompatActivity {
         });
     }
 
-    private void updateTimeAndSeekBar() {
-        long totalDuration = player.getDuration();
-        long currentDuration = player.getCurrentPosition();
-
-        song_total_duration.setText((utils.milliSecodsToTime(totalDuration)));
-        song_current_duration.setText(utils.milliSecodsToTime(currentDuration));
-
-        int progress = (utils.getProgressSeekBar(currentDuration, totalDuration));
-        seekBar.setProgress(progress);
-    }
-
     private Runnable mUpdateTimeTask = new Runnable() {
         @Override
         public void run() {
-            updateTimeAndSeekBar();
-            if (player.isPlaying()) {
-                mHandler.postDelayed(this, 100);
+            if (player != null) {
+                if (player.isPlaying()) {
+                    updateTimeAndSeekBar();
+                    mHandler.postDelayed(this, 100);
+                }
             }
         }
     };
 
+    private void updateTimeAndSeekBar() {
+        if (player != null) {
+            if (player.isPlaying()) {
+                long totalDuration = player.getDuration();
+                long currentDuration = player.getCurrentPosition();
+
+                song_total_duration.setText((utils.milliSecodsToTime(totalDuration)));
+                song_current_duration.setText(utils.milliSecodsToTime(currentDuration));
+
+                int progress = (utils.getProgressSeekBar(currentDuration, totalDuration));
+                seekBar.setProgress(progress);
+            }
+        }
+    }
+
     private void rotateDisk() {
-        if (player.isPlaying()) {
+        if (player == null) {
+            image.animate().cancel();
+        } else if (player.isPlaying()){
             image.animate().setDuration(100).rotation(image.getRotation()+2f).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
@@ -193,19 +195,6 @@ public class CurrentSongActivity extends AppCompatActivity {
                     super.onAnimationEnd(animation);
                 }
             });
-        }
-    }
-
-    private boolean toggleButtonColor(ImageButton bt) {
-        String selected=(String) bt.getTag(bt.getId());
-        if (selected!=null){
-            bt.setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
-            bt.setTag(bt.getId(), null);
-            return false;
-        } else {
-            bt.setTag(bt.getId(), "selected");
-            bt.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
-            return true;
         }
     }
 
@@ -220,6 +209,7 @@ public class CurrentSongActivity extends AppCompatActivity {
             });
         }
         player.start();
+        mHandler.post(mUpdateTimeTask);
     }
 
     public void pauseSong(View v) {
@@ -245,5 +235,13 @@ public class CurrentSongActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         releasePlayer();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacks(mUpdateTimeTask);
+        releasePlayer();
+        finish();
     }
 }

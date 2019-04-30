@@ -50,7 +50,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View v) {
                 Toast.makeText(mContext, song.title, Toast.LENGTH_SHORT).show();
-                sendData(song.uri, song.title, song.length);
+                sendData(song.uri, song.title);
 
             }
         });
@@ -102,11 +102,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         builder.show();
     }
 
-    private void sendData(String uri, String title, String length) {
+    private void sendData(String uri, String title) {
         Intent intent = new Intent(mContext.getApplicationContext(), CurrentSongActivity.class);
         intent.putExtra("URI", uri);
         intent.putExtra("SONG_TITLE", title);
-        intent.putExtra("SONG_DURATION", length);
         mContext.startActivity(intent);
 
     }
