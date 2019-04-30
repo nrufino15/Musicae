@@ -1,12 +1,13 @@
 package com.example.musicae.View;
 
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.database.Cursor;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +21,7 @@ import com.example.musicae.Modal.Song;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -27,10 +29,8 @@ import java.util.List;
  */
 public class MusicFragment extends Fragment {
 
-    private RecyclerViewAdapter recyclerViewAdapter;
     List<Song> mList = new ArrayList<>();
 
-    MediaPlayer mediaPlayer;
 
     public MusicFragment() {
         // Required empty public constructor
@@ -38,7 +38,7 @@ public class MusicFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_music, container, false);
@@ -55,9 +55,13 @@ public class MusicFragment extends Fragment {
     }
 
     public void getSongs() {
-        ContentResolver contentResolver = getActivity().getContentResolver();
+        ContentResolver contentResolver = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            contentResolver = Objects.requireNonNull(getActivity()).getContentResolver();
+        }
         Uri musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        Cursor songCursor = contentResolver.query(musicUri, null, null, null, null);
+        assert contentResolver != null;
+        @SuppressLint("Recycle") Cursor songCursor = contentResolver.query(musicUri, null, null, null, null);
 
         if (songCursor != null) {
             if (songCursor.moveToFirst()) {
@@ -79,14 +83,4 @@ public class MusicFragment extends Fragment {
             }
         }
     }
-
-//    public void playSong() throws IOException {
-//        Song song = new Song();
-//        String filePath = song.uri;
-//        mediaPlayer = new MediaPlayer();
-//        mediaPlayer.setDataSource(filePath);
-//        mediaPlayer.prepare();
-//        mediaPlayer.start();
-//
-//    }
 }

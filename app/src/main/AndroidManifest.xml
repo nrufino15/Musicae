@@ -12,9 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".View.CurrentSongActivity"></activity>
+        <activity android:name=".View.NavigationBarWithTabsActivity"></activity>
+        <activity android:name=".View.CurrentSongActivity" />
+        <activity android:name=".View.SlideActivity" />
         <activity
-            android:name=".View.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/SplashTheme">
             <intent-filter>
