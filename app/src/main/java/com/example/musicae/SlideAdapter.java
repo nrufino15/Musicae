@@ -21,28 +21,24 @@ public class SlideAdapter extends PagerAdapter {
 
     //Arrays
     public int[] slide_img = {
-        R.drawable.koffer_icon,
-        R.drawable.code_icon,
-        R.drawable.sleep_icon
+        R.drawable.musicae_icon,
+        R.drawable.play_icon,
+        R.drawable.warnig_icon
     };
 
     public String[] slide_headings = {
             "BIENVENIDO",
-            "LOGÍSTICA",
-            "COMODIDAD"
+            "REPRODUCIR",
+            "INCICENCIAS"
     };
 
     public String[] slide_descs = {
-            "Bienvenidos a Koffer, gestionamos" +
-            "y nos hacemos cargo de la logistica de " +
-            "su equipaja de viaje para que usted pueda " +
-            "disfrute de su instancia sin preoucuparse de robos o extravios.",
-            "Disponemos del servicio de recogida de su" +
-            " equipaje en el aeropuerto y traslado a las " +
-            "instalaciones donde se hospedan los dueño de las maletas.",
-            "Disponemos de un amplio personal en se encarga de recoger, " +
-            " transpotar y entregar las maletas en las zonas assignadas" +
-            " de forma rapida y como para el consumidor"
+            "Bienvenidos a Musicae, con esta app podras" +
+            "reproducir las cansiones de tu dispositivo en cualquier" +
+            "momento y sin publicidad.",
+            "Haz clic en las canciones para reproducirlas.",
+            "Haz clic en incidencias en el menú desplegable de la derecha " +
+            "para poder mandar algún problema de la app."
     };
 
     @Override

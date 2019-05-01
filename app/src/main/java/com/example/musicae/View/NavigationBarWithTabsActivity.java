@@ -70,9 +70,9 @@ public class NavigationBarWithTabsActivity extends AppCompatActivity
     }
 
     public void setUser(){
-//        userImage = findViewById(R.id.userimage);
-//        userName =  findViewById(R.id.username);
-//        userEmail =  findViewById(R.id.useremail);
+        userImage = findViewById(R.id.userimage);
+        userName =  findViewById(R.id.username);
+        userEmail =  findViewById(R.id.useremail);
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {

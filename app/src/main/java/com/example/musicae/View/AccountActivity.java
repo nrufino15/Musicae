@@ -1,9 +1,12 @@
 package com.example.musicae.View;
 
 import android.content.Intent;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +24,9 @@ public class AccountActivity extends AppCompatActivity {
     TextView tvUsername;
     TextView tvUseremail;
     ImageView ivUserAvatar;
+    Matrix matrix = new Matrix();
+    Float scale = 1f;
+    ScaleGestureDetector SGD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +37,8 @@ public class AccountActivity extends AppCompatActivity {
         tvUseremail = findViewById(R.id.userEmail);
 
         ivUserAvatar = findViewById(R.id.userAvatar);
+
+        SGD = new ScaleGestureDetector(this, new ScaleListener());
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
@@ -55,5 +63,22 @@ public class AccountActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            scale = scale * detector.getScaleFactor();
+            scale = Math.max(0.1f, Math.min(scale, 5f));
+            matrix.setScale(scale, scale);
+            ivUserAvatar.setImageMatrix(matrix);
+            return true;
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        SGD.onTouchEvent(event);
+        return true;
     }
 }

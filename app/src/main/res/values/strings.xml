@@ -49,6 +49,13 @@
     <!-- Login -->
     <string name="login_title">Iniciar sesión con google</string>
 
+    <!-- Add PlayList -->
+    <string name="add_title">Titulo de la PlayList</string>
+    <string name="add_subtile">Añade una descripcion</string>
+    <string name="add_creatBtn">Crear PlayList</string>
+
+    <!-- Intro -->
+    <string name="intro_welcome">Bienvenidos a Musicae, con esta app podras reproducir las cansiones de tu dispositivo en cualquier momento y sin publicidad.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
