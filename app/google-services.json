@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "255054386356-p46g9e13d90p26o71rabk6k4baisvm5k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.musicae",
+            "certificate_hash": "051425ea1ce314a8e3e77802fc7a10859600307d"
+          }
+        },
+        {
           "client_id": "255054386356-rcf5136m5voapilen1qih60jijhrqa0v.apps.googleusercontent.com",
           "client_type": 3
         }

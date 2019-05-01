@@ -1,21 +1,17 @@
 package com.example.musicae.View;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,53 +19,70 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.example.musicae.MainActivity;
 import com.example.musicae.R;
 import com.example.musicae.TapPagerAdapter;
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class NavigationBarWithTabsActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener  {
+        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
 
 
     private ImageView userImage;
     private TextView userName, userEmail;
+    private GoogleApiClient googleApiClient;
 
-    private static final int MY_PERMISSION_REQUEST = 1;
-    MusicFragment musicFragment;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth.AuthStateListener firebaseAuthListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_bar_with_tabs);
 
-        verifyPermissions();
+//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestEmail()
+//                .build();
+//
+//        googleApiClient = new GoogleApiClient.Builder(this)
+//                .enableAutoManage(this, this)
+//                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+//                .build();
+//
+//        firebaseAuth = FirebaseAuth.getInstance();
+//        firebaseAuthListener = new FirebaseAuth.AuthStateListener() {
+//            @Override
+//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+////                FirebaseUser user = firebaseAuth.getCurrentUser();
+////                if (user != null) {
+//////                    setUserData(user);
+////                    setUser();
+////                } else {
+////                    goLogInScreen();
+////                }
+//                setUser();
+//            }
+//        };
+
+        setUp();
+        setUser();
     }
 
-
-    public void verifyPermissions() {
-        String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE};
-
-        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                permissions[0]) == PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                permissions[1]) == PackageManager.PERMISSION_GRANTED){
-            setUp();
-        } else {
-            ActivityCompat.requestPermissions(NavigationBarWithTabsActivity.this, permissions, MY_PERMISSION_REQUEST);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        verifyPermissions();
-    }
+//    private void setUserData(FirebaseUser user) {
+//        userName.setText(user.getDisplayName());
+//        userEmail.setText(user.getEmail());
+//
+//        Glide.with(this).load(user.getPhotoUrl()).into(userImage);
+//    }
 
     public void setUp() {
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -91,36 +104,40 @@ public class NavigationBarWithTabsActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        userImage = (ImageView) findViewById(R.id.userImage);
+        userName = (TextView) findViewById(R.id.userName);
+        userEmail = (TextView) findViewById(R.id.userEmail);
     }
 
     public void setUser(){
-        userImage = findViewById(R.id.userImage);
-        userEmail = findViewById(R.id.userEmail);
-        userName = findViewById(R.id.userName);
-
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
-            userName.setText(firebaseUser.getDisplayName());
-            userEmail.setText(firebaseUser.getEmail());
-            Glide.with(this)
-                    .load(firebaseUser.getPhotoUrl().toString())
-                    .into(userImage);
+            Log.d("MiAPP", firebaseUser.getDisplayName());
+            Log.d("MiAPP", firebaseUser.getEmail());
+            Log.d("MiAPP", firebaseUser.getPhotoUrl().toString());
+//            userName.setText(firebaseUser.getDisplayName());
+//            userEmail.setText(firebaseUser.getEmail());
+//            Glide.with(this)
+//                    .load(firebaseUser.getPhotoUrl().toString())
+//                    .into(userImage);
 
 
-            findViewById(R.id.sign_out).setOnClickListener(new View.OnClickListener() {
+            findViewById(R.id.logoutBtn).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     AuthUI.getInstance()
-                            .signOut(LoginActivity.this)
+                            .signOut(NavigationBarWithTabsActivity.this)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                                     finish();
                                 }
                             });
                 }
             });
         }
+    }
 
 
     @Override
@@ -180,4 +197,44 @@ public class NavigationBarWithTabsActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//
+//        firebaseAuth.addAuthStateListener(firebaseAuthListener);
+//    }
+
+    public void logOut(View view) {
+        firebaseAuth.signOut();
+        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
+            @Override
+            public void onResult(@NonNull Status status) {
+                if (status.isSuccess()) {
+                    goLogInScreen();
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.not_log_in, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void goLogInScreen() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        if (firebaseAuthListener != null) {
+//            firebaseAuth.removeAuthStateListener(firebaseAuthListener);
+//        }
+//    }
 }
