@@ -13,7 +13,7 @@
     <string name="playlists">PLAYLISTS</string>
     <string name="options">Opciones</string>
     <string name="music">Música</string>
-    <string name="explore">Explorar</string>
+    <string name="account">Cuenta</string>
     <string name="log_out">DESCONECTARSE</string>
 
     <!-- Item Song -->
@@ -40,6 +40,15 @@
     <string name="header">HEADER</string>
     <string name="body_content">Body contente</string>
     <string name="slide_skip_button">No volver a mostrar</string>
+
+    <!-- Report -->
+    <string name="report_title">Titulo</string>
+    <string name="report_body">Descripción</string>
+    <string name="report_sendBtn">ENVIAR</string>
+
+    <!-- Login -->
+    <string name="login_title">Iniciar sesión con google</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -13,9 +13,9 @@
                     android:icon="@drawable/ic_audiotrack_24dp"
                     android:title="@string/music" />
                 <item
-                    android:id="@+id/nav_explore"
-                    android:icon="@drawable/ic_explore_24dp"
-                    android:title="@string/explore" />
+                    android:id="@+id/nav_account"
+                    android:icon="@drawable/ic_account_circle_white_24dp"
+                    android:title="@string/account" />
             </group>
         </menu>
     </item>

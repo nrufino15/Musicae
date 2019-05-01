@@ -17,31 +17,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.musicae.R;
 import com.example.musicae.TapPagerAdapter;
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class NavigationBarWithTabsActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    private ImageView userImage;
-    private TextView userName, userEmail;
-    private GoogleApiClient googleApiClient;
-
-    private FirebaseAuth firebaseAuth;
-    private FirebaseAuth.AuthStateListener firebaseAuthListener;
+    public ImageView userImage;
+    public TextView userName;
+    public TextView userEmail;
 
 
     @Override
@@ -49,9 +40,7 @@ public class NavigationBarWithTabsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_bar_with_tabs);
 
-
         setUp();
-        setUser();
     }
 
     public void setUp() {
@@ -67,20 +56,24 @@ public class NavigationBarWithTabsActivity extends AppCompatActivity
         tabLayout.setupWithViewPager(viewPager);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
-        userImage = (ImageView) findViewById(R.id.userImage);
-        userName = (TextView) findViewById(R.id.userName);
-        userEmail = (TextView) findViewById(R.id.userEmail);
+        setUser();
     }
 
     public void setUser(){
+//        userImage = findViewById(R.id.userimage);
+//        userName =  findViewById(R.id.username);
+//        userEmail =  findViewById(R.id.useremail);
+
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
             Log.d("MiAPP", firebaseUser.getDisplayName());
@@ -136,17 +129,22 @@ public class NavigationBarWithTabsActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Toast.makeText(getApplicationContext(), "Enviando", Toast.LENGTH_SHORT).show();
+            goToReportSection();
         }
         if (id == R.id.action_help) {
-            setIntentButton();
+            goToHelpSection();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void setIntentButton(){
+    public void goToHelpSection(){
         Intent intent = new Intent(getApplicationContext(), SlideActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToReportSection(){
+        Intent intent = new Intent(getApplicationContext(), ReportActivity.class);
         startActivity(intent);
     }
 
@@ -157,40 +155,16 @@ public class NavigationBarWithTabsActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_music) {
-            // Handle the camera action
-        } else if (id == R.id.nav_explore) {
-
+            Intent intent = new Intent(getApplicationContext(), NavigationBarWithTabsActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_account) {
+            Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
+            startActivity(intent);
         }
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-
-    public void logOut(View view) {
-        firebaseAuth.signOut();
-        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
-            @Override
-            public void onResult(@NonNull Status status) {
-                if (status.isSuccess()) {
-                    goLogInScreen();
-                } else {
-                    Toast.makeText(getApplicationContext(), R.string.not_log_in, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-    private void goLogInScreen() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
     }
 }

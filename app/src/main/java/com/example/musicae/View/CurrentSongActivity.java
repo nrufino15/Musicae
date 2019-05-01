@@ -7,25 +7,26 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.AppCompatSeekBar;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.musicae.MusicUtilsActivity;
 import com.example.musicae.R;
 import com.mikhaellopez.circularimageview.CircularImageView;
+
 import java.io.IOException;
 
 public class CurrentSongActivity extends AppCompatActivity {
 
-    private AppCompatSeekBar seekBar;
+    private SeekBar seekBar;
     private TextView song_current_duration;
     private TextView song_total_duration;
     private FloatingActionButton playBtn, pauseBtn;
@@ -43,10 +44,8 @@ public class CurrentSongActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_song);
         getIntentData();
-        playSong();
         setComponents();
-        setSeekBar();
-        updateTimeAndSeekBar();
+        playSong();
         buttonActions();
         rotateDisk();
     }
@@ -62,12 +61,22 @@ public class CurrentSongActivity extends AppCompatActivity {
         player.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
         try {
-            player.setDataSource(this, Uri.parse(URI));
+            player.setDataSource(getApplicationContext(), Uri.parse(URI));
             player.prepare();
-            player.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                seekBar.setMax(player.getDuration());
+                mp.start();
+                playCycle();
+
+            }
+        });
+        setSeekBar();
     }
 
     public void setComponents() {
@@ -85,29 +94,38 @@ public class CurrentSongActivity extends AppCompatActivity {
     }
 
     public void setSeekBar() {
-        utils = new MusicUtilsActivity();
-
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
+                if (fromUser) {
+                    player.seekTo(progress);
+                }
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                mHandler.removeCallbacks(mUpdateTimeTask);
+
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                mHandler.removeCallbacks(mUpdateTimeTask);
-                int totalDuration = player.getDuration();
-                int currentPosition = utils.progressToTimer(seekBar.getProgress(), totalDuration);
-                player.seekTo(currentPosition);
-                mHandler.post(mUpdateTimeTask);
+
             }
         });
-        updateTimeAndSeekBar();
+    }
+
+    public void playCycle(){
+        seekBar.setProgress(player.getCurrentPosition());
+
+        if (player.isPlaying()){
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    playCycle();
+                }
+            };
+            mHandler.postDelayed(runnable, 1000);
+        }
     }
 
     public void buttonActions() {
@@ -157,12 +175,13 @@ public class CurrentSongActivity extends AppCompatActivity {
         });
     }
 
+
     private Runnable mUpdateTimeTask = new Runnable() {
         @Override
         public void run() {
             if (player != null) {
                 if (player.isPlaying()) {
-                    updateTimeAndSeekBar();
+//                    updateTimeAndSeekBar();
                     mHandler.postDelayed(this, 100);
                 }
             }

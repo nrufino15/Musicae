@@ -1,7 +1,6 @@
 package com.example.musicae.View;
 
 
-import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
@@ -15,13 +14,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.musicae.Modal.Song;
 import com.example.musicae.R;
 import com.example.musicae.RecyclerViewAdapter;
-import com.example.musicae.Modal.Song;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
 /**
@@ -71,7 +69,7 @@ public class MusicFragment extends Fragment {
                     song.uri = data;
                     song.artist = artist;
                     song.length = length;
-                    song.title = name;
+                    song.title = name.replace(".mp3", "");
 
                     mList.add(song);
 

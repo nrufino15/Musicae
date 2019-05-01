@@ -51,7 +51,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void onClick(View v) {
                 Toast.makeText(mContext, song.title, Toast.LENGTH_SHORT).show();
                 sendData(song.uri, song.title);
-
             }
         });
 
@@ -107,6 +106,5 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         intent.putExtra("URI", uri);
         intent.putExtra("SONG_TITLE", title);
         mContext.startActivity(intent);
-
     }
 }
