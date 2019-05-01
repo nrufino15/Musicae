@@ -49,40 +49,10 @@ public class NavigationBarWithTabsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_bar_with_tabs);
 
-//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestEmail()
-//                .build();
-//
-//        googleApiClient = new GoogleApiClient.Builder(this)
-//                .enableAutoManage(this, this)
-//                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-//                .build();
-//
-//        firebaseAuth = FirebaseAuth.getInstance();
-//        firebaseAuthListener = new FirebaseAuth.AuthStateListener() {
-//            @Override
-//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-////                FirebaseUser user = firebaseAuth.getCurrentUser();
-////                if (user != null) {
-//////                    setUserData(user);
-////                    setUser();
-////                } else {
-////                    goLogInScreen();
-////                }
-//                setUser();
-//            }
-//        };
 
         setUp();
         setUser();
     }
-
-//    private void setUserData(FirebaseUser user) {
-//        userName.setText(user.getDisplayName());
-//        userEmail.setText(user.getEmail());
-//
-//        Glide.with(this).load(user.getPhotoUrl()).into(userImage);
-//    }
 
     public void setUp() {
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -198,12 +168,6 @@ public class NavigationBarWithTabsActivity extends AppCompatActivity
         return true;
     }
 
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//
-//        firebaseAuth.addAuthStateListener(firebaseAuthListener);
-//    }
 
     public void logOut(View view) {
         firebaseAuth.signOut();
@@ -229,12 +193,4 @@ public class NavigationBarWithTabsActivity extends AppCompatActivity
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
-
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        if (firebaseAuthListener != null) {
-//            firebaseAuth.removeAuthStateListener(firebaseAuthListener);
-//        }
-//    }
 }
