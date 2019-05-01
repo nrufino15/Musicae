@@ -94,6 +94,7 @@ public class CurrentSongActivity extends AppCompatActivity {
     }
 
     public void setSeekBar() {
+        utils=new MusicUtilsActivity();
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -112,19 +113,23 @@ public class CurrentSongActivity extends AppCompatActivity {
 
             }
         });
+        updateTimeAndSeekBar();
     }
 
     public void playCycle(){
         seekBar.setProgress(player.getCurrentPosition());
 
-        if (player.isPlaying()){
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    playCycle();
-                }
-            };
-            mHandler.postDelayed(runnable, 1000);
+        if (player != null) {
+            if (player.isPlaying()){
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        playCycle();
+                        updateTimeAndSeekBar();
+                    }
+                };
+                mHandler.postDelayed(runnable, 1000);
+            }
         }
     }
 
@@ -175,19 +180,6 @@ public class CurrentSongActivity extends AppCompatActivity {
         });
     }
 
-
-    private Runnable mUpdateTimeTask = new Runnable() {
-        @Override
-        public void run() {
-            if (player != null) {
-                if (player.isPlaying()) {
-//                    updateTimeAndSeekBar();
-                    mHandler.postDelayed(this, 100);
-                }
-            }
-        }
-    };
-
     private void updateTimeAndSeekBar() {
         if (player != null) {
             if (player.isPlaying()) {
@@ -228,7 +220,6 @@ public class CurrentSongActivity extends AppCompatActivity {
             });
         }
         player.start();
-        mHandler.post(mUpdateTimeTask);
     }
 
     public void pauseSong(View v) {
@@ -259,7 +250,6 @@ public class CurrentSongActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mHandler.removeCallbacks(mUpdateTimeTask);
         releasePlayer();
         finish();
     }
