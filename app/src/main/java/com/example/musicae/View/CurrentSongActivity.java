@@ -47,7 +47,6 @@ public class CurrentSongActivity extends AppCompatActivity {
         setComponents();
         playSong();
         buttonActions();
-        rotateDisk();
     }
 
     public void getIntentData() {
@@ -73,10 +72,11 @@ public class CurrentSongActivity extends AppCompatActivity {
                 seekBar.setMax(player.getDuration());
                 mp.start();
                 playCycle();
+                rotateDisk();
+                setSeekBar();
 
             }
         });
-        setSeekBar();
     }
 
     public void setComponents() {
@@ -117,9 +117,8 @@ public class CurrentSongActivity extends AppCompatActivity {
     }
 
     public void playCycle(){
-        seekBar.setProgress(player.getCurrentPosition());
-
         if (player != null) {
+            seekBar.setProgress(player.getCurrentPosition());
             if (player.isPlaying()){
                 Runnable runnable = new Runnable() {
                     @Override

@@ -21,9 +21,9 @@ public class SlideAdapter extends PagerAdapter {
 
     //Arrays
     public int[] slide_img = {
-        R.drawable.musicae_icon,
-        R.drawable.play_icon,
-        R.drawable.warnig_icon
+        R.drawable.eat_icon,
+        R.drawable.code_icon,
+        R.drawable.sleep_icon
     };
 
     public String[] slide_headings = {

@@ -35,7 +35,7 @@ public class AddPlayListActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), NavigationBarWithTabsActivity.class);
                 Title = playListTitle.getText().toString();
                 playListFragment.mList.add(new PlayList(Title));
-                playListFragment.recyclerViewAdapter.notifyItemInserted(PlayList);
+//                playListFragment.recyclerViewAdapter.notifyItemInserted(PlayList);
                 startActivity(intent);
                 finish();
             }
